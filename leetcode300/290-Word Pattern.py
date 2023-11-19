@@ -25,3 +25,7 @@ class Solution(object):
             dt[p[i]] = pattern[i]
             st[pattern[i]] = p[i]
         return True
+#输入:
+#a = [1, 2, 3]b = ['a', 'b', 'c']result = #list(zip(a, b))print(result)
+#输出：
+#[(1, 'a'), (2, 'b'), (3, 'c')]
