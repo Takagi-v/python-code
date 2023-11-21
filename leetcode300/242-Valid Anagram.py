@@ -22,17 +22,10 @@ import collections
 class Solution:
     def isAnagram(self, s, t):
         """
-
         :type s: str
-
         :type t: str
-
         :rtype: bool
-
         """
-
         cnt1 = collections.Counter(s)
-
         cnt2 = collections.Counter(t)
-
         return not (cnt1 - cnt2) and not (cnt2 - cnt1)
