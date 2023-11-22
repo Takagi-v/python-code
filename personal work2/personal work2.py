@@ -94,7 +94,6 @@ print(prime_sieve())
 
 #5. Miller-Rabin
 def prime_Miller_Rabin(n):
-    time_start = time.time()
     if n == 2:
         return True
     if n < 2 or n % 2 == 0:
@@ -104,15 +103,15 @@ def prime_Miller_Rabin(n):
     while t & 1 == 0:
         k += 1
         t >>= 1
-    s=[2,3,5]
+    s = [2, 3]
     for j in s:
         a = j
         b = pow(a, t, n)
         tmp = 0
-        if b==1:
+        if b == 1:
             continue
         for i in range(k):
-            if (b + 1) % n == 0:
+            if b == n - 1:
                 tmp = 1
                 break
             else:
@@ -121,8 +120,17 @@ def prime_Miller_Rabin(n):
             continue
         else:
             return False
-    time_end = time.time()
-    return True, time_end - time_start
+    return True
 
-n=900900900900990990990991
-print(prime_Miller_Rabin(n))
+
+def primes_check():
+    time_start = time.time()
+    number_pn = 2
+    for i in range(5, 10**6):
+        if prime_Miller_Rabin(i):
+            number_pn += 1
+    time_end = time.time()
+    return time_end - time_start, number_pn
+
+
+print(primes_check())

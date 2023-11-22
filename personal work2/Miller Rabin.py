@@ -18,10 +18,8 @@ def prime_Miller_Rabin(n):
         a = j
         b = pow(a, t, n)
         tmp = 0
-        if b == 1:
-            continue
         for i in range(k):
-            if b==n-1:
+            if b==n-1 or b==1:
                 tmp = 1
                 break
             else:
@@ -33,5 +31,5 @@ def prime_Miller_Rabin(n):
     time_end = time.time()
     return True, time_end - time_start, number_pn,t,k
 
-n= 900900900900990990990991
+n= 11
 print(prime_Miller_Rabin(n))
