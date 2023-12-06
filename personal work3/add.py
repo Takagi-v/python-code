@@ -1,15 +1,19 @@
 def strtolist(s):
-    sign=1
-    if s[0]=='-':
-        sign=-1
-        s=s[1:]
-    lst=[int(digit) for digit in s[::-1]]
-    return sign,lst
-def listtostr(sign,lst):
-    s=''.join(map(str,lst))
-    return s if sign==1 else '-'+s
+    sign = 1
+    if s[0] == "-":
+        sign = -1
+        s = s[1:]
+    lst = [int(digit) for digit in s]
+    return sign, lst
+
+
+def listtostr(sign, lst):
+    s = "".join(map(str, lst))
+    return s if sign == 1 else "-" + s
+
+
 def add_list(lst1, lst2):
-    num1,num2=lst1,lst2
+    num1, num2 = lst1[::-1], lst2[::-1]
     num = []
     x = 0
     while len(num1) < len(num2):
@@ -22,20 +26,24 @@ def add_list(lst1, lst2):
     if x == 1:
         num.append(1)
     return num[::-1]
+
+
 def sub_list(lst1, lst2):
-    num1 =lst1
-    num2 =lst2
-    sign=1
-    if len(num1)<len(num2):
-        num1,num2=num2,num1
-        sign=-1
-    if len(num1)==len(num2):
-        k=len(num1)-1
-        while num1[k]==num2[k]:
-            k-=1
-        if num1[k]<num2[k]:
-            sign=-1
-            num1,num2=num2,num1
+    num1 = lst1[::-1]
+    num2 = lst2[::-1]
+    if num1 == num2:
+        return 1, [0]
+    sign = 1
+    if len(num1) < len(num2):
+        num1, num2 = num2, num1
+        sign = -1
+    if len(num1) == len(num2):
+        k = len(num1) - 1
+        while num1[k] == num2[k]:
+            k -= 1
+        if num1[k] < num2[k]:
+            sign = -1
+            num1, num2 = num2, num1
     num = []
     x = 0
     while len(num1) < len(num2):
@@ -52,21 +60,22 @@ def sub_list(lst1, lst2):
         num.append(dif)
     while len(num) > 1 and num[-1] == 0:
         num.pop()
-    return sign,num[::-1]
-def add(str1,str2):
-    sign1,lst1=strtolist(str1)
-    sign2,lst2=strtolist(str2)
-    if sign1==sign2:
-        ans=add_list(lst1,lst2)
-        return listtostr(1,ans) if sign1==1 else listtostr(-1,ans)
-    if sign1==-1:
-        print(ans[0],ans[1])
-        return listtostr(ans[0],ans[1])
-    if sign1==1:
-        ans=sub_list(lst1,lst2)
-        return listtostr(ans[0],ans[1])
-    
-        
-        
-c = add('-9877344555','11111111')
+    return sign, num[::-1]
+
+
+def add(str1, str2):
+    sign1, lst1 = strtolist(str1)
+    sign2, lst2 = strtolist(str2)
+    if sign1 == sign2:
+        ans = add_list(lst1, lst2)
+        return listtostr(1, ans) if sign1 == 1 else listtostr(-1, ans)
+    if sign1 == -1:
+        ans = sub_list(lst2, lst1)
+        return listtostr(ans[0], ans[1])
+    if sign1 == 1:
+        ans = sub_list(lst1, lst2)
+        return listtostr(ans[0], ans[1])
+
+
+c = add("-11111111", "11111111")
 print(c)

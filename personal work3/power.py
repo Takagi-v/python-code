@@ -11,7 +11,6 @@ def listtostr(sign, lst):
     s = "".join(map(str, lst))
     return s if sign == 1 else "-" + s
 
-
 def mul_list(lst1, lst2):
     num1 = lst1[::-1]
     num2 = lst2[::-1]
@@ -27,14 +26,15 @@ def mul_list(lst1, lst2):
         num.pop()
     return num[::-1]
 
+def pow_list(lst1,n):
+    num=[1]
+    for i in range(n):
+        num=mul_list(num,lst1)
+    return num
 
-def mul(str1, str2):
-    if str1=='0' or str2=='0':
-        return '0'
-    sign1, lst1 = strtolist(str1)
-    sign2, lst2 = strtolist(str2)
-    ans = mul_list(lst1, lst2)
-    return listtostr(1, ans) if sign1 == sign2 else listtostr(-1, ans)
+def pow1(str1,n):
+    sign,lst1=strtolist(str1)
+    ans=pow_list(lst1,n)
+    return listtostr(1,ans)
 
 
-print(mul("-1234565", "0"))

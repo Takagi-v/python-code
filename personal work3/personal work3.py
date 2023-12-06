@@ -1,3 +1,33 @@
+def strtolist(s):
+    sign = 1
+    if s[0] == "-":
+        sign = -1
+        s = s[1:]
+    lst = [int(digit) for digit in s]
+    return sign, lst
+
+
+def listtostr(sign, lst):
+    s = "".join(map(str, lst))
+    return s if sign == 1 else "-" + s
+
+
+def add_list(lst1, lst2):
+    num1, num2 = lst1[::-1], lst2[::-1]
+    num = []
+    x = 0
+    while len(num1) < len(num2):
+        num1.append(0)
+    while len(num2) < len(num1):
+        num2.append(0)
+    for i in range(len(num1)):
+        num.append((num1[i] + num2[i] + x) % 10)
+        x = (num1[i] + num2[i]) // 10
+    if x == 1:
+        num.append(1)
+    return num[::-1]
+
+
 def sub_list(lst1, lst2):
     num1 = lst1[::-1]
     num2 = lst2[::-1]
@@ -83,18 +113,65 @@ def div_list(lst1, lst2):
     return quotient, remainder
 
 
-def listtostr(sign, lst):
-    s = "".join(map(str, lst))
-    return s if sign == 1 else "-" + s
+def pow_list(lst1, n):
+    num = [1]
+    for i in range(n):
+        num = mul_list(num, lst1)
+    return num
+
+
+def add(str1, str2):
+    sign1, lst1 = strtolist(str1)
+    sign2, lst2 = strtolist(str2)
+    if sign1 == sign2:
+        ans = add_list(lst1, lst2)
+        return listtostr(1, ans) if sign1 == 1 else listtostr(-1, ans)
+    if sign1 == -1:
+        ans = sub_list(lst2, lst1)
+        return listtostr(ans[0], ans[1])
+    if sign1 == 1:
+        ans = sub_list(lst1, lst2)
+        return listtostr(ans[0], ans[1])
+
+
+def sub(str1, str2):
+    sign1, lst1 = strtolist(str1)
+    sign2, lst2 = strtolist(str2)
+    if sign1 == sign2 == -1:
+        ans = sub_list(lst2, lst1)
+        return listtostr(ans[0], ans[1])
+    if sign1 == sign2 == 1:
+        ans = sub_list(lst1, lst2)
+        return listtostr(ans[0], ans[1])
+    else:
+        ans = add_list(lst1, lst2)
+        return listtostr(1, ans) if sign1 == 1 else listtostr(-1, ans)
+
+
+def mul(str1, str2):
+    if str1 == "0" or str2 == "0":
+        return "0"
+    sign1, lst1 = strtolist(str1)
+    sign2, lst2 = strtolist(str2)
+    ans = mul_list(lst1, lst2)
+    return listtostr(1, ans) if sign1 == sign2 else listtostr(-1, ans)
 
 
 def div(str1, str2):
-    lst1 = [int(digit) for digit in str1]
-    lst2 = [int(digit) for digit in str2]
+    sign1, lst1 = strtolist(str1)
+    sign2, lst2 = strtolist(str2)
+    if lst2 == [0]:
+        return "Oops! It is a wrong caculation."
+    if lst1 == [0]:
+        return [0], [0]
+    sign, ans = sub_list(lst1, lst2)
+    if sign == -1:
+        return [0], lst1
     quotient, remainder = div_list(lst1, lst2)
     return listtostr(1, quotient), listtostr(1, remainder)
 
 
-a = "8773849905050493"
-b = "123"
-print(div(a, b))
+def pow(str1, n):
+    sign, lst1 = strtolist(str1)
+    ans = pow_list(lst1, n)
+    return listtostr(1, ans)
