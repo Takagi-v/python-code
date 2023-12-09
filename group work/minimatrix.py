@@ -96,14 +96,6 @@ class Matrix:
         return result
 
     def inverse(self):
-        r"""
-        计算非奇异方阵的逆矩阵。对于非方阵或奇异阵的情形应抛出异常。
-        要求: 该函数应不改变 self 的内容; 该函数的时间复杂度应该不超过 O(n**3).
-        提示: Gauss消元
-
-        Returns:
-                Matrix: 一个 Matrix 实例，表示逆矩阵
-        """
         if self.dim[0]!=self.dim[1]:
             raise ValueError("This matrice doesn't have an inversed matrice")
         if self.det()==0:
