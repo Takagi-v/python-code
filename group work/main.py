@@ -7,15 +7,8 @@ import minimatrix as mm
 # The following code is only for your reference
 # Please write the test code yourself
 
-a = mm.narray([4, 5])
-b=mm.ones([2,4])
-c=mm.ones_like(a)
-d=mm.nrandom([4,2])
-e=mm.nrandom_like(d)
-@mm.vectorize
-def f(x):
-  return x+2
-print(f(b))
+A, B = mm.Matrix([[1,2,3],[3,4,5],[2,5,6]]), mm.Matrix([[3, 4, 5]])
+print(A.inverse())
 
 # print(a)
 # print(a.shape())
