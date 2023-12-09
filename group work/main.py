@@ -8,9 +8,14 @@ import minimatrix as mm
 # Please write the test code yourself
 
 a = mm.narray([4, 5])
-
-a = mm.I(10)
-print(a)
+b=mm.ones([2,4])
+c=mm.ones_like(a)
+d=mm.nrandom([4,2])
+e=mm.nrandom_like(d)
+@mm.vectorize
+def f(x):
+  return x+2
+print(f(b))
 
 # print(a)
 # print(a.shape())

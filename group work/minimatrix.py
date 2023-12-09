@@ -2,36 +2,9 @@
 # Fan Cheng, 2022
 
 import random
-
+import numpy as np
 
 class Matrix:
-    r"""
-    自定义的二维矩阵类
-
-    Args:
-            data: 一个二维的嵌套列表，表示矩阵的数据。即 data[i][j] 表示矩阵第 i+1 行第 j+1 列处的元素。
-                      当参数 data 不为 None 时，应根据参数 data 确定矩阵的形状。默认值: None
-            dim: 一个元组 (n, m) 表示矩阵是 n 行 m 列, 当参数 data 为 None 时，根据该参数确定矩阵的形状；
-                     当参数 data 不为 None 时，忽略该参数。如果 data 和 dim 同时为 None, 应抛出异常。默认值: None
-            init_value: 当提供的 data 参数为 None 时，使用该 init_value 初始化一个 n 行 m 列的矩阵，
-                                    即矩阵各元素均为 init_value. 当参数 data 不为 None 时，忽略该参数。 默认值: 0
-
-    Attributes:
-            dim: 一个元组 (n, m) 表示矩阵的形状
-            data: 一个二维的嵌套列表，表示矩阵的数据
-
-    Examples:
-            >>> mat1 = Matrix(dim=(2, 3), init_value=0)
-            >>> print(mat1)
-            >>> [[0 0 0]
-                     [0 0 0]]
-            >>> mat2 = Matrix(data=[[0, 1], [1, 2], [2, 3]])
-            >>> print(mat2)
-            >>> [[0 1]
-                     [1 2]
-                     [2 3]]
-    """
-
     def __init__(self, data=None, dim=None, init_value=0):
         if data != None:
             self.data = data
@@ -319,9 +292,6 @@ class Matrix:
 
 
 def I(n):
-    """
-    return an n*n unit matrix
-    """
     result=[]
     for i in range(n):
         temp=[0]*n
@@ -331,97 +301,47 @@ def I(n):
     return m
 
 
-def narray(dim, init_value=1):  # dim (,,,,,), init为矩阵元素初始值
-    r"""
-    返回一个matrix，维数为dim，初始值为init_value
-
-    Args:
-            dim: Tuple[int, int] 表示矩阵形状
-            init_value: 表示初始值，默认值: 1
-
-    Returns:
-            Matrix: 一个 Matrix 类型的实例
-    """
-    # return Matrix(dim, None, init_value)
+def narray(dim, init_value=1):
+    return Matrix(dim=dim,init_value=init_value)
 
 
 def arange(start, end, step):
-    r"""
-    返回一个1*n 的 narray 其中的元素类同 range(start, end, step)
-
-    Args:
-            start: 起始点(包含)
-            end: 终止点(不包含)
-            step: 步长
-
-    Returns:
-            Matrix: 一个 Matrix 实例
-    """
-    pass
+    result=[]
+    temp=[]
+    for i in range(start,end,step):
+        temp.append(i)
+    result.append(temp)
+    return Matrix(data=result)
 
 
 def zeros(dim):
-    r"""
-    返回一个维数为dim 的全0 narray
-
-    Args:
-            dim: Tuple[int, int] 表示矩阵形状
-
-    Returns:
-            Matrix: 一个 Matrix 类型的实例
-    """
-    pass
+    return Matrix(dim=dim,init_value=0)
 
 
 def zeros_like(matrix):
-    r"""
-    返回一个形状和matrix一样 的全0 narray
-
-    Args:
-            matrix: 一个 Matrix 实例
-
-    Returns:
-            Matrix: 一个 Matrix 类型的实例
-
-    Examples:
-            >>> A = Matrix(data=[[1, 2, 3], [2, 3, 4]])
-            >>> zeros_like(A)
-            >>> [[0 0 0]
-                     [0 0 0]]
-    """
-    pass
+    return Matrix(dim=matrix.dim)
 
 
 def ones(dim):
-    r"""
-    返回一个维数为dim 的全1 narray
-    类同 zeros
-    """
-    pass
+    return Matrix(dim=dim,init_value=1)
 
 
 def ones_like(matrix):
-    r"""
-    返回一个维数和matrix一样 的全1 narray
-    类同 zeros_like
-    """
-    pass
+    return Matrix(dim=matrix.dim,init_value=1)
 
 
 def nrandom(dim):
-    r"""
-    返回一个维数为dim 的随机 narray
-    参数与返回值类型同 zeros
-    """
-    pass
+    result=[]
+    for i in range(dim[0]):
+        temp=[]
+        for i in range(dim[1]):
+            temp.append(random.random())
+        result.append(temp)
+    return Matrix(data=result)
 
 
 def nrandom_like(matrix):
-    r"""
-    返回一个维数和matrix一样 的随机 narray
-    参数与返回值类型同 zeros_like
-    """
-    pass
+    return nrandom(matrix.dim)
 
 
 def concatenate(items, axis=0):
@@ -451,37 +371,15 @@ def concatenate(items, axis=0):
 
 
 def vectorize(func):
-    r"""
-    将给定函数进行向量化
-
-    Args:
-            func: 一个Python函数
-
-    Returns:
-            一个向量化的函数 F: Matrix -> Matrix, 它的参数是一个 Matrix 实例 x, 返回值也是一个 Matrix 实例；
-            它将函数 func 作用在 参数 x 的每一个元素上
-
-    Examples:
-            >>> def func(x):
-                            return x ** 2
-            >>> F = vectorize(func)
-            >>> x = Matrix([[1, 2, 3],[2, 3, 1]])
-            >>> F(x)
-            >>> [[1 4 9]
-                     [4 9 1]]
-            >>>
-            >>> @vectorize
-            >>> def my_abs(x):
-                            if x < 0:
-                                    return -x
-                            else:
-                                    return x
-            >>> y = Matrix([[-1, 1], [2, -2]])
-            >>> my_abs(y)
-            >>> [[1, 1]
-                     [2, 2]]
-    """
-    pass
+    def wrapper(matrix):
+        result=[]
+        for row in matrix.data:
+            temp=[]
+            for elem in row:
+                temp.append(func(elem))
+            result.append(temp)
+        return Matrix(data=result)
+    return wrapper
 
 
 if __name__ == "__main__":
