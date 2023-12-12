@@ -14,10 +14,8 @@ print(A.inverse())
 # print(a.shape())
 # print(a.reshape([2, 6]))
 
-# ma1 = mm.Matrix(2,3)
-# ma2 = mm.Matrix(3,4)
-
-# print(ma1 * ma2)
+ma1 = mm.Matrix(2,3)
+ma2 = mm.Matrix(3,4)
 
 
 
