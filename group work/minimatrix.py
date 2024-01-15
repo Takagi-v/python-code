@@ -254,13 +254,23 @@ class Matrix:
         return self.dim[0] * self.dim[1]
 
     def __str__(self):
-        result = "["
-        result += "[" + " ".join(f"{x:3}" for x in self.data[0]) + "]"
-        for row in self.data[1::]:
-            result += "\n [" + " ".join(f"{x:3}" for x in row) + "]"
-        result += "]"
-        return result
-
+        import copy
+        result=copy.deepcopy(self.data)
+        for i in range(self.dim[0]):
+            for j in range(self.dim[1]):
+                result[i][j]=str(result[i][j])
+        norm=[0]*self.dim[1]
+        for i in range(self.dim[0]):
+            for j in range(self.dim[1]):
+                norm[j]=max(len(result[i][j]),norm[j])
+        for i in range(self.dim[0]):
+            for j in range(self.dim[1]):
+                result[i][j]=' '*(norm[j]-len(result[i][j]))+result[i][j]
+        result=str(result)
+        result=result.replace(',','')
+        result=result.replace("'",'')
+        result=result.replace("] [","]\n [")
+        return result+'\n'
     def det(self):
         if self.dim[0]!=self.dim[1]:
             raise ValueError("This matrice can not calculate determinant")
